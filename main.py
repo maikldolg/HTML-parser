@@ -23,5 +23,6 @@ for p in PAGES:
     bs = BeautifulSoup(res.text, "html.parser")
     data = bs.findAll(text=True)
     result = '\n'.join(filter(visible, data))
+    result = re.sub("^\s+|\n|\r|\s+$", '', result)
     cur.execute("""insert into public.fts_example(file_name,file_content) values(%s,%s)""", (p, result))
     conn.commit()
